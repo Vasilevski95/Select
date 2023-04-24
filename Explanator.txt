@@ -1,0 +1,121 @@
+Select project:
+
+This is a React simple project called Select that renders a custom select box with the ability to select multiple options or a single option depending on the passed props.
+
+The component accepts three props:
+
+options: an array of objects that contain the options to be rendered. Each option object has two properties: 
+label which is a string that represents the option's label and value which is a string or number representing the option's value.
+multiple: a boolean value indicating whether the component should allow selecting multiple options or not.
+value: the currently selected option(s) passed as a single SelectOption object or an array of SelectOption objects. 
+If multiple is false, then value is a single SelectOption object or undefined if nothing is selected.
+The component uses useState, useEffect, and useRef hooks from React. 
+The component maintains the state of whether the select box is open or not (isOpen) and the index of the currently highlighted option (highlightedIndex).
+
+The component has several helper functions:
+
+clearOptions(): a function that clears the selected option(s) by calling the onChange function passed as a prop.
+selectOption(option: SelectOption): a function that selects/deselects an option based on whether the multiple prop is true or false.
+isOptionSelected(option: SelectOption): a function that returns a boolean indicating whether an option is selected or not.
+The component has two useEffect hooks:
+
+The first useEffect hook sets the highlightedIndex to 0 whenever the isOpen state changes.
+The second useEffect hook sets up event listeners for keyboard events to handle opening/closing the select box, highlighting options, and selecting options. 
+It also cleans up the event listeners when the component unmounts.
+The component renders a div container that contains the currently selected option(s) or a placeholder if nothing is selected. 
+The container also contains a clear button that clears the selected option(s) and a dropdown button that toggles the visibility of the options list.
+
+The options list is rendered as an unordered list (<ul>) and contains list items (<li>) for each option passed as a prop. 
+Each list item contains the option label and is highlighted if it is currently highlighted or selected. When an option is clicked, it is selected and the dropdown is closed.
+
+
+
+
+
+
+
+Functions and state:
+
+
+
+
+
+selectOption:
+
+This is a function called selectOption which is used to update the selected option(s) based on user interaction.
+The function takes in a parameter option which is an object of type SelectOption.
+The function first checks if the multiple prop is set to true, which means multiple options can be selected. 
+If it is true, the function checks if the current value array includes the selected option. 
+If the option is already included in the value array, it removes that option from the array using the filter method and updates the state using the onChange function. 
+If the option is not included in the value array, it adds the option to the value array using the spread operator and updates the state using the onChange function.
+If the multiple prop is set to false, which means only one option can be selected at a time, the function checks if the option passed in is different from the current value. 
+If it is different, it updates the state with the new option using the onChange function. If it is the same, it does not make any changes to the state.
+
+
+
+
+
+clearOptions:
+
+The clearOptions function is called when the user clicks on the "clear" button, and it takes no arguments. 
+If the multiple prop is true, it calls the onChange function with an empty array, which clears all selected options. 
+If multiple is false, it calls the onChange function with undefined, which clears the selected option.
+
+
+
+
+
+isOptionSelected:
+
+The isOptionSelected function is called to check whether a given option is currently selected. 
+It takes an option argument, which is an object with label and value properties. If the multiple prop is true, it returns true if the value array includes the given option. 
+If multiple is false, it returns true if the value prop is equal to the given option.
+
+
+
+
+
+useEffect [isOpen]:
+
+The useEffect hook is called with a callback function and a dependency array. 
+The callback function is called when the isOpen state changes, and it sets the highlightedIndex state to 0 if isOpen is true. 
+This ensures that the first option is highlighted when the dropdown is opened.
+
+
+
+
+
+useEffect [isOpen, highlightedIndex, options]:
+
+This is a useEffect hook that sets up a keyboard event listener on the container element referenced by containerRef. 
+The listener responds to certain keyboard events and modifies the state of the component accordingly.
+The effect has a cleanup function that removes the event listener when the component is unmounted.
+
+Here is a summary of what the effect does:
+
+The effect sets up a keyboard event listener on the container element referenced by containerRef. The event listener listens for the keydown event.
+The handler function is called whenever the keydown event is fired on the container element. It checks the code property of the event to determine which key was pressed.
+If the Enter or Space key is pressed, the isOpen state is toggled and the selectOption function is called with the currently highlighted option as an argument.
+If the ArrowUp or ArrowDown key is pressed, the highlightedIndex state is updated to the next or previous index in the options array, 
+depending on the key pressed. If the dropdown is not open, it is opened first.
+If the Escape key is pressed, the isOpen state is set to false.
+The effect returns a cleanup function that removes the keydown event listener from the container element.
+
+
+
+
+
+useRef => containerRef
+
+useRef is a React Hook that returns a mutable ref object. In this case, containerRef is a reference to a div element in the React component's JSX code.
+The useRef hook is used to maintain a reference to the container element, which is used in the component to add and remove an event listener for keydown events.
+Using useRef allows us to reference the div element in the code without having to re-render the component every time we need to access it. This can be useful for performance optimization purposes.
+
+
+
+
+
+
+
+
+
